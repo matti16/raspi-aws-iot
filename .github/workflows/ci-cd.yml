@@ -35,7 +35,6 @@ jobs:
       - 
         name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
-        working-directory: ./webapp
       - 
         name: Login to ECR
         run: aws ecr get-login-password --region ${{env.AWS_REGION}} | docker login --username AWS --password-stdin ${{env.AWS_ACCOUNT}}.dkr.ecr.${{env.AWS_REGION}}.amazonaws.com
