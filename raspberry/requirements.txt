@@ -1,0 +1,5 @@
+click
+awsiotsdk
+gpiozero
+RPi.GPIO
+pydantic
