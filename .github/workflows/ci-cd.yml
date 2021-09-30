@@ -22,7 +22,8 @@ jobs:
       - uses: webfactory/ssh-agent@v0.5.3
         with:
           ssh-private-key: ${{secrets.SSH_PRIVATE_KEY}}
-      - name: Configure Dev AWS Credentials
+      - 
+        name: Configure Dev AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
@@ -31,36 +32,20 @@ jobs:
           role-to-assume: ci-deployer-role-dev
           role-duration-seconds: 1200
           role-session-name: GithubBuildDev
-      - name: Set up Docker Buildx
+      - 
+        name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
-      - # seen here https://github.com/docker/build-push-action/blob/master/docs/advanced/cache.md#github-cache
-        # with relative cleanup fix "Move cache" below
-        name: Cache Docker layers
-        uses: actions/cache@v2
-        with:
-          path: /tmp/.buildx-cache
-          key: ${{runner.os}}-buildx-${{github.sha}}
-          restore-keys: |
-            ${{runner.os}}-buildx-
-      - name: Login to ECR
+      - 
+        name: Login to ECR
         run: aws ecr get-login-password --region ${{env.AWS_REGION}} | docker login --username AWS --password-stdin ${{env.AWS_ACCOUNT}}.dkr.ecr.${{env.AWS_REGION}}.amazonaws.com
-      - name: Build and push image
+      - 
+        name: Build and push image
         uses: docker/build-push-action@v2
         with:
           ssh: default
           push: true
           tags: ${{env.AWS_ACCOUNT}}.dkr.ecr.${{env.AWS_REGION}}.amazonaws.com/bmattia/${{env.SERVICE_NAME}}:${{github.sha}}
-          cache-from: type=local,src=/tmp/.buildx-cache
-          cache-to: type=local,dest=/tmp/.buildx-cache-new
           file: webapp/Dokerfile
-      - # Temp fix
-        # https://github.com/docker/build-push-action/issues/252
-        # https://github.com/moby/buildkit/issues/1896
-        name: Move cache
-        run: |
-          rm -rf /tmp/.buildx-cache
-          mv /tmp/.buildx-cache-new /tmp/.buildx-cache
-
 
   deploy-webapp-dev:
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
