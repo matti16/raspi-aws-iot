@@ -18,7 +18,6 @@ jobs:
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     name: Package Docker image
     runs-on: ubuntu-latest
-    needs: build
     steps:
       - uses: webfactory/ssh-agent@v0.5.3
         with:
