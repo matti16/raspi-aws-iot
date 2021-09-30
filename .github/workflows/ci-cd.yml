@@ -45,8 +45,7 @@ jobs:
           ssh: default
           push: true
           tags: ${{env.AWS_ACCOUNT}}.dkr.ecr.${{env.AWS_REGION}}.amazonaws.com/bmattia/${{env.SERVICE_NAME}}:${{github.sha}}
-          file: Dockerfile
-          context: webapp
+          file: webapp/Dockerfile
 
   deploy-webapp-dev:
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
