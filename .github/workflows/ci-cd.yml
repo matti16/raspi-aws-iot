@@ -33,17 +33,23 @@ jobs:
           role-duration-seconds: 1200
           role-session-name: GithubBuildDev
       - 
-        name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v1
-      - 
-        name: Login to ECR
-        run: aws ecr get-login-password --region ${{env.AWS_REGION}} | docker login --username AWS --password-stdin ${{env.AWS_ACCOUNT}}.dkr.ecr.${{env.AWS_REGION}}.amazonaws.com
-      - 
-        name: Build and push image
-        uses: docker/build-push-action@v1
-        with:
-          tags: ${{env.AWS_ACCOUNT}}.dkr.ecr.${{env.AWS_REGION}}.amazonaws.com/bmattia/${{env.SERVICE_NAME}}:${{github.sha}}
-          path: webapp
+        name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v1
+      -
+        name: Build, tag, and push the image to Amazon ECR
+        id: build-image
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          ECR_REPOSITORY: bmattia/${{ env.SERVICE_NAME }}
+          IMAGE_TAG: ${{ github.sha }}
+        working-directory: ./webapp
+        run: |
+          # Build a docker container and push it to ECR 
+          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+          echo "Pushing image to ECR..."
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+          echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
 
   deploy-webapp-dev:
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
