@@ -77,7 +77,7 @@ Resources:
       Environment:
         Variables:
           REGION: !Sub "${Region}"
-          IOT_TOPIC: !Sub "raspi/${Env}"
+          IOT_TOPIC: !Sub "${ServiceName}/${Env}"
 
   LambdaRole:
     Type: "AWS::IAM::Role"
