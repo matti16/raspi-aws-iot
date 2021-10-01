@@ -94,7 +94,7 @@ Resources:
             Action: 
               - "sts:AssumeRole"
       ManagedPolicyArns:
-        - !Sub "${ServiceName}-policy-${Env}"
+        - !Sub "arn:aws:iam::${Account}:policy/${ServiceName}-policy-${Env}"
 
 
 Outputs:
