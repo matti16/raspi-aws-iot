@@ -51,8 +51,7 @@ jobs:
           cd webapp
           docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
-          echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
-          
+
 
   deploy-webapp-dev:
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
