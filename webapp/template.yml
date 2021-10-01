@@ -69,7 +69,7 @@ Resources:
       Role: !GetAtt LambdaRole.Arn
       PackageType: Image
       Code:
-        ImageUri: !Sub "${Account}.dkr.ecr.${Region}.amazonaws.com/mirta/${ServiceName}:${ImageTag}"
+        ImageUri: !Sub "${Account}.dkr.ecr.${Region}.amazonaws.com/bmattia/${ServiceName}:${ImageTag}"
       ImageConfig:
         Command: ["handlers.handler"]
         EntryPoint: ["/lambda-entrypoint.sh"]
