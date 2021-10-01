@@ -93,24 +93,8 @@ Resources:
                 - "lambda.amazonaws.com"
             Action: 
               - "sts:AssumeRole"
-      Policies:
-        - PolicyName: !Sub "${ServiceName}-policy-${Env}"
-
-  LambdaManagedPolicy:
-    Type: AWS::IAM::Policy
-    Properties:
-      PolicyName: !Sub "${ServiceName}-policy-${Env}"
-      PolicyDocument:
-        Version: '2012-10-17'
-        Statement:
-          -
-            Sid: PublishToIoT
-            Effect: Allow
-            Action:
-              - iot:Publish
-            Resource: "*"
-      Roles:
-        - !Ref LambdaRole
+      ManagedPolicyArns:
+        - !Sub "${ServiceName}-policy-${Env}"
 
 
 Outputs:
