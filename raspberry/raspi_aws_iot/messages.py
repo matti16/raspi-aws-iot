@@ -8,7 +8,7 @@ class MsgType(Enum):
 
 class LedCommand(BaseModel):
     leds: list
-    statuses: list
+    status: list
 
 
 class Message(BaseModel):

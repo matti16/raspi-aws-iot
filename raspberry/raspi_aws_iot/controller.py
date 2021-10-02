@@ -12,7 +12,7 @@ class Controller:
     def parse_msg(self, msg: str):
         msg = Message.parse_obj(json.loads(msg))
         if msg.msg_type == MsgType.LED:
-            self.control_leds(msg.msg_body.leds, msg.msg_body.statuses)
+            self.control_leds(msg.msg_body.leds, msg.msg_body.status)
 
     def control_leds(self, leds, statues):
         for i, l in enumerate(leds):
