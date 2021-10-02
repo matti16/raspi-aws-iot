@@ -11,6 +11,7 @@ env:
   AWS_ACCOUNT: 568480506324
   AWS_REGION: eu-west-1
   PYTHON_VERSION: 3.8
+  S3_BUCKET: mattiot-website-dev
 
 
 jobs:
@@ -82,6 +83,7 @@ jobs:
             ServiceName=${{env.SERVICE_NAME}},
             Account=${{env.AWS_ACCOUNT}},
             Region=${{env.AWS_REGION}},
+            BucketName=${{env.S3_BUCKET}},
             ImageTag=${{github.sha}}
 
 
@@ -95,8 +97,8 @@ jobs:
       - name: Configure Dev AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
-          aws-access-key-id: ${{ secrets.LAMBDA_AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.LAMBDA_AWS_SECRET_ACCESS_KEY }}
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ env.AWS_REGION }}
           role-to-assume: ci-deployer-role-dev
           role-duration-seconds: 1200
@@ -107,6 +109,6 @@ jobs:
           mv ./webapp/static/js/config.dev.js ./webapp/static/js/config.js
       - name: Deploy
         run: |
-          aws s3 sync ./webapp/static s3://${{ env.S3_BUCKET }}/webapp \
+          aws s3 sync ./webapp/static s3://${{ env.S3_BUCKET }} \
             --delete \
             --cache-control 'public, must-revalidate, proxy-revalidate, max-age=0'

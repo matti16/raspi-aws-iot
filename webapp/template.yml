@@ -19,6 +19,9 @@ Parameters:
   Region:
     Type: String
     Description: "The AWS region"
+  BucketName:
+    Type: String
+    Description: "The S3 Bucket"
   ImageTag:
     Type: String
     Description: "The docker image tag to use"
@@ -99,11 +102,11 @@ Resources:
   S3Bucket:
     Type: AWS::S3::Bucket
     Properties:
-      BucketName: !Sub bmattia-${ServiceName}-${Env}
+      BucketName: !Sub ${BucketName}
       AccessControl: PublicRead
       WebsiteConfiguration:
-        IndexDocument: webapp/index.html
-        ErrorDocument: webapp/error.html
+        IndexDocument: index.html
+        ErrorDocument: error.html
 
 Outputs:
   ApiGatewayInvokeURL:
