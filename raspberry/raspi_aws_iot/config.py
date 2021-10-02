@@ -1,7 +1,7 @@
 from uuid import uuid4
 
 class MQTTConfig:
-    TOPIC = "test/raspi"
+    TOPIC = "raspberry-aws-iot/dev"
     PORT = 443
     ROOT_CA = "/home/pi/.aws/Amazon-root-CA-1.pem"
     CERT = "/home/pi/.aws/device.pem.crt"
