@@ -74,6 +74,18 @@ button {
     cursor: pointer;
 }
 
+button:disabled {
+    border: none;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 20px;
+    font-weight: bold;
+    cursor: wait;
+    background-color: grey;
+}
+
 button.submit {
     border-radius: 8%;
     background-color: #fafafa;
@@ -121,4 +133,11 @@ button.led.red.on {
 button.led.red.off {
     background-color: #dda6a6; 
     color: #333; 
+}
+
+
+.msg-container{
+    text-align: center;
+    color: aquamarine;
+    text-transform: uppercase;
 }

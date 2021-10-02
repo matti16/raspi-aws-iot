@@ -5,11 +5,14 @@ var app = new Vue({
             green: false,
             yellow: false,
             red: false,
-        }
+        },
+        responseMsg: "",
+        isLoading: false,
     },
 
     methods: {
         sendLeds: async function () {
+            this.isLoading = true;
             console.log("Sending Leds ", this.leds);
             try {
                 const url = config.apiHost;
@@ -33,10 +36,13 @@ var app = new Vue({
                 let response = await fetch(url, requestOptions);
                 response = await response.text();
                 console.log('Response', response);
+                this.responseMsg = "Successfully sent";
 
             } catch (error) {
                 console.error('internal server error', error);
+                this.responseMsg = "An error occurred";
             }
+            this.isLoading = false;
         }
     }
 });

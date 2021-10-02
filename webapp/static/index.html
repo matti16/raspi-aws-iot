@@ -39,7 +39,11 @@
         </div>
 
         <div class="button-container">
-            <button class="submit" @click="sendLeds()">SET</button>
+            <button :disabled="isLoading" class="submit" @click="sendLeds()" >SET</button>
+        </div>
+
+        <div class="msg-container">
+            <h3>{{ responseMsg }}</h3>
         </div>
 
 
