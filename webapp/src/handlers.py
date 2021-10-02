@@ -17,6 +17,13 @@ def send_mqtt_msg(msg):
     
 
 def handler(event, context):
-    body = event["body"]
+    body = json.loads(event["body"])
     print(f"Received message: {body}")
-    return send_mqtt_msg(body)
+    
+    send_mqtt_msg(body)
+    
+    response = {
+        "statusCode": 200,
+        body: json.dumps(event["body"])
+    }
+    return response

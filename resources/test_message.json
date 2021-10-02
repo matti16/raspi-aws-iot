@@ -1,0 +1,3 @@
+{
+    "body": "{ \"msg_type\": \"led\", \"msg_body\": { \"leds\": [\"green\", \"yellow\", \"red\"], \"statuses\": [1, 0, 0]}}"
+}
