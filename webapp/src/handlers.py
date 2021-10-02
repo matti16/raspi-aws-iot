@@ -25,6 +25,10 @@ def handler(event, context):
 
     response = {
         "statusCode": 200,
+        "headers": {
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Methods": "POST, OPTIONS"
+        },
         "body": json.dumps(body)
     }
     print(f"Response: {response}")
