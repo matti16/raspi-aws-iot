@@ -19,4 +19,4 @@ def send_mqtt_msg(msg):
 def handler(event, context):
     body = event["body"]
     print(f"Received message: {body}")
-    send_mqtt_msg(body)
+    return send_mqtt_msg(body)
