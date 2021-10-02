@@ -99,7 +99,7 @@ Resources:
   S3Bucket:
     Type: AWS::S3::Bucket
     Properties:
-      BucketName: !Sub mattia-${ServiceName}-${Env}
+      BucketName: !Sub bmattia-${ServiceName}-${Env}
       AccessControl: PublicRead
       WebsiteConfiguration:
         IndexDocument: index.html
@@ -108,3 +108,5 @@ Resources:
 Outputs:
   ApiGatewayInvokeURL:
     Value: !Sub https://${ApiGateway}.execute-api.${AWS::Region}.amazonaws.com/${Env}
+  StaticS3WebsiteURL:
+    Value: !Sub http://${S3Bucket}.s3-website.${AWS::Region}.amazonaws.com 

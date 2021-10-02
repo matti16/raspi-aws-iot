@@ -25,7 +25,7 @@ def handler(event, context):
 
     response = {
         "statusCode": 200,
-        body: event["body"]
+        "body": body
     }
     print(f"Response: {response}")
     return response
