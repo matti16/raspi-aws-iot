@@ -88,12 +88,11 @@ jobs:
 
 
   deploy-s3-website:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     name: Deploy S3 website to dev
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-        with:
-          ref: "${{ github.event.inputs.gitRef }}"
       - name: Configure Dev AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:

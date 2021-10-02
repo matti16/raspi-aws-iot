@@ -1,0 +1,124 @@
+body {
+    background-color: gray;
+    margin: 0;
+    font-family: "Dosis", sans-serif;
+}
+
+.topnav {
+    background-color: #333;
+    overflow: hidden;
+}
+
+.topnav p {
+    color: #f2f2f2;
+    text-align: center;
+    text-decoration: none;
+    font-size: 25px;
+    font-weight: bold;
+    color: aquamarine;
+}
+
+
+/* The sidebar menu */
+.sidenav {
+    height: 100%; /* Full-height: remove this if you want "auto" height */
+    width: 160px; /* Set the width of the sidebar */
+    position: fixed; /* Fixed Sidebar (stay in place on scroll) */
+    z-index: 1; /* Stay on top */
+    left: 0;
+    background-color: #111; /* Black */
+    overflow-x: hidden; /* Disable horizontal scroll */
+    padding-top: 20px;
+}
+  
+  /* The navigation menu links */
+.sidenav a {
+    padding: 6px 8px 6px 16px;
+    text-decoration: none;
+    font-size: 25px;
+    color: #818181;
+    display: block;
+}
+  
+  /* When you mouse over the navigation links, change their color */
+.sidenav a:hover {
+    color: #f1f1f1;
+}
+  
+  /* Style page content */
+.main {
+    margin-left: 160px; /* Same as the width of the sidebar */
+    padding: 0px 10px;
+}
+  
+  /* On smaller screens, where height is less than 450px, change the style of the sidebar (less padding and a smaller font size) */
+@media screen and (max-height: 450px) {
+    .sidenav {padding-top: 15px;}
+    .sidenav a {font-size: 18px;}
+}
+
+.button-container{
+    margin: auto;
+    text-align: center;
+    padding: 50px;
+}
+
+button {
+    border: none;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 20px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+button.submit {
+    border-radius: 8%;
+    background-color: #fafafa;
+    color: #333;
+}
+
+button.submit:hover{
+    box-shadow: 0 4px 4px 0 aquamarine, 0 4px 4px 0 aquamarine;
+}
+
+button.led {
+    border-radius: 12%;
+    margin-left: 25px;
+    margin-right: 25px;
+}
+
+button.led.on {
+    box-shadow: 0 8px 16px 0 rgba(255, 255, 255, 0.8), 0 6px 20px 0 rgba(255, 255, 255, 0.8);
+}
+
+button.led.off {
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+}
+
+button.led.green.on {
+    background-color: #56d45a; 
+    color: white; 
+}
+button.led.green.off {
+    background-color: #98b499; 
+    color: #333; 
+}
+button.led.yellow.on {
+    background-color: #fffc5e; 
+    color: white; 
+}
+button.led.yellow.off {
+    background-color: #dbdaa8;
+    color: #333;  
+}
+button.led.red.on {
+    background-color: #ec4141; 
+    color: white; 
+}
+button.led.red.off {
+    background-color: #dda6a6; 
+    color: #333; 
+}
