@@ -83,3 +83,30 @@ jobs:
             Account=${{env.AWS_ACCOUNT}},
             Region=${{env.AWS_REGION}},
             ImageTag=${{github.sha}}
+
+
+  deploy-s3-website:
+    name: Deploy S3 website to dev
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          ref: "${{ github.event.inputs.gitRef }}"
+      - name: Configure Dev AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.LAMBDA_AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.LAMBDA_AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+          role-to-assume: ci-deployer-role-dev
+          role-duration-seconds: 1200
+          role-session-name: GithubDeployDev
+      - name: Choose config file
+        run: |
+          rm ./webapp/static/js/config.prod.js
+          mv ./webapp/static/js/config.dev.js ./webapp/static/js/config.js
+      - name: Deploy
+        run: |
+          aws s3 sync ./webapp/static s3://${{ env.S3_BUCKET }}/webapp \
+            --delete \
+            --cache-control 'public, must-revalidate, proxy-revalidate, max-age=0'
