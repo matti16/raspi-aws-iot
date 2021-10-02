@@ -95,7 +95,15 @@ Resources:
               - "sts:AssumeRole"
       ManagedPolicyArns:
         - !Sub "arn:aws:iam::${Account}:policy/${ServiceName}-policy-${Env}"
-
+  
+  S3Bucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: !Sub mattia-${ServiceName}-${Env}
+      AccessControl: PublicRead
+      WebsiteConfiguration:
+        IndexDocument: index.html
+        ErrorDocument: error.html
 
 Outputs:
   ApiGatewayInvokeURL:
