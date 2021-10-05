@@ -58,8 +58,6 @@ Resources:
       ClientName: !Sub "${ServiceName}-client-app-${Env}"
       GenerateSecret: false
       RefreshTokenValidity: 30
-      CallbackUrls: 
-        - 'https://example.com'
       AllowedOAuthFlows:
         - code
         - implicit
