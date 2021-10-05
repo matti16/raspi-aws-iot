@@ -57,7 +57,7 @@ jobs:
 
   deploy-webapp-dev:
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-    name: Deploy to WebApp to dev
+    name: Deploy WebApp to dev
     runs-on: ubuntu-latest
     needs: package-web-app
     steps:
