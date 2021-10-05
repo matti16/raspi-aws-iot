@@ -223,6 +223,12 @@ Resources:
                 - /*
       Bucket: !Ref S3Bucket
 
+  CloudFrontOriginAccessIdentity:
+    Type: AWS::CloudFront::CloudFrontOriginAccessIdentity
+    Properties:
+      CloudFrontOriginAccessIdentityConfig:
+        Comment: matti-iot cloudfront OAI
+
   CloudFrontDistribution:
     Type: AWS::CloudFront::Distribution
     Properties:
@@ -232,6 +238,8 @@ Resources:
           - S3Bucket
           - WebsiteURL
           Id: S3Origin 
+          S3OriginConfig:
+            OriginAccessIdentity: !Join [ '/', [ 'origin-access-identity', 'cloudfront', !Ref  CloudFrontOriginAccessIdentity] ]
         Enabled: 'true'
         DefaultRootObject: index.html
         DefaultCacheBehavior:
