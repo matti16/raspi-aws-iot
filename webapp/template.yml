@@ -30,7 +30,7 @@ Resources:
   CognitoUsers:
     Type: AWS::Cognito::UserPool
     Properties:
-      UserPoolName: "${ServiceName}-user-pool-${Env}"
+      UserPoolName: !Sub "${ServiceName}-user-pool-${Env}"
       UsernameConfiguration:
         CaseSensitive: false
       AdminCreateUserConfig:
@@ -55,7 +55,7 @@ Resources:
     Type: AWS::Cognito::UserPoolClient
     Properties:
       UserPoolId: !Ref CognitoUsers
-      ClientName: "${ServiceName}-client-app-${Env}"
+      ClientName: !Sub "${ServiceName}-client-app-${Env}"
       GenerateSecret: false
       RefreshTokenValidity: 30
       AllowedOAuthFlows:
