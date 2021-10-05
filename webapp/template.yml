@@ -213,12 +213,12 @@ Resources:
       PolicyDocument:
         Version: "2012-10-17"
         Statement:
-          - Sid: ReadForGetBucketObjectsFromCDN
+          - Sid: PublicReadForGetBucketObjects
             Effect: Allow
-            Principal: '*'
-            Action: !Sub
+            Principal: !Sub
               - "arn:aws:iam::cloudfront:user/CloudFront Origin Access Identity ${CLOUDFRONTID}"
               - {CLOUDFRONTID: !Ref CloudFrontOriginAccessIdentity} 
+            Action: "s3:GetObject"
             Resource: !Join 
               - ''
               - - 'arn:aws:s3:::'
