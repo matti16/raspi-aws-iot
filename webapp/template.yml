@@ -27,6 +27,59 @@ Parameters:
     Description: "The docker image tag to use"
 
 Resources:  
+  CognitoUsers:
+    Type: AWS::Cognito::UserPool
+    Properties:
+      UserPoolName: test-pool
+      UsernameConfiguration:
+        CaseSensitive: false
+      AdminCreateUserConfig:
+        AllowAdminCreateUserOnly: true
+      Policies:
+        PasswordPolicy:
+          MinimumLength: 8
+          RequireLowercase: true
+          RequireSymbols: true
+          RequireUppercase: true
+          TemporaryPasswordValidityDays: 1
+      UsernameAttributes:
+        - email
+      MfaConfiguration: "OFF"
+      Schema:
+        - AttributeDataType: String
+          DeveloperOnlyAttribute: false
+          Mutable: true
+          Name: email
+  
+  ClientAppClient:
+    Type: AWS::Cognito::UserPoolClient
+    Properties:
+      UserPoolId: !Ref CognitoUsers
+      ClientName: "${ServiceName}-client-app"
+      GenerateSecret: false
+      RefreshTokenValidity: 30
+      AllowedOAuthFlows:
+        - code
+        - implicit
+      ExplicitAuthFlows:
+        - ALLOW_USER_SRP_AUTH
+        - ALLOW_REFRESH_TOKEN_AUTH
+      AllowedOAuthScopes:
+        - email
+        - openid
+        - profile
+        - aws.cognito.signin.user.admin
+      AllowedOAuthFlowsUserPoolClient: true
+      PreventUserExistenceErrors: ENABLED
+      SupportedIdentityProviders:
+        - COGNITO
+
+  AuthDomain:
+    Type: AWS::Cognito::UserPoolDomain
+    Properties:
+      UserPoolId: !Ref CognitoUsers
+      Domain: !Sub "${ServiceName}-pool-domain"
+
   ApiGateway:
     Type: AWS::ApiGateway::RestApi
     Properties:
@@ -34,11 +87,25 @@ Resources:
         Types:
           - REGIONAL
       Name: !Sub "${ServiceName}-api"
+
+  ApiAuthorizer:
+    Type: AWS::ApiGateway::Authorizer
+    Properties:
+      IdentitySource: method.request.header.authorization
+      Name: CognitoAuthorizer
+      ProviderARNs:
+        - Fn::GetAtt:
+            - CognitoUsers
+            - Arn
+      RestApiId: !Ref ApiGateway
+      Type: COGNITO_USER_POOLS
   
   ApiGatewayRootMethod:
     Type: AWS::ApiGateway::Method
     Properties:
-      AuthorizationType: NONE
+      ApiKeyRequired: false
+      AuthorizationType: COGNITO_USER_POOLS
+      AuthorizerId: !Ref ApiAuthorizer
       RestApiId: !Ref ApiGateway
       ResourceId: !GetAtt ApiGateway.RootResourceId
       HttpMethod: POST
@@ -162,3 +229,18 @@ Outputs:
     Value: !GetAtt
       - S3Bucket
       - WebsiteURL
+
+  UserPoolId:
+    Description: The user pool ID
+    Value: !Ref CognitoUsers
+
+  UserPoolUrl:
+    Description: URL of the Cognito provider
+    Value:
+      Fn::GetAtt:
+        - CognitoUsers
+        - ProviderURL
+
+  ClientId:
+    Description: The app client ID
+    Value: !Ref ClientAppClient
