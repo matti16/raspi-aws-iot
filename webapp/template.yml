@@ -59,7 +59,7 @@ Resources:
       GenerateSecret: false
       RefreshTokenValidity: 30
       CallbackUrls: 
-        - !Join [ '', [ 'https://', !GetAtt CloudFrontDistribution.DomainName ] ] 
+        - 'https://example.com'
       AllowedOAuthFlows:
         - code
         - implicit
