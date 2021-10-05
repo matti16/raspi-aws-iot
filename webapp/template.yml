@@ -207,6 +207,25 @@ Resources:
         IndexDocument: index.html
         ErrorDocument: error.html
 
+  BucketPolicy:
+    Type: AWS::S3::BucketPolicy
+    Properties:
+      PolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Sid: ReadForGetBucketObjectsFromCDN
+            Effect: Allow
+            Principal: '*'
+            Action: !Sub
+              - "arn:aws:iam::cloudfront:user/CloudFront Origin Access Identity ${CLOUDFRONTID}"
+              - {CLOUDFRONTID: !Ref CloudFrontOriginAccessIdentity} 
+            Resource: !Join 
+              - ''
+              - - 'arn:aws:s3:::'
+                - !Ref S3Bucket
+                - /*
+      Bucket: !Ref S3Bucket
+
   CloudFrontOriginAccessIdentity:
     Type: AWS::CloudFront::CloudFrontOriginAccessIdentity
     Properties:
