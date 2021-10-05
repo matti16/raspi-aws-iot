@@ -7,7 +7,7 @@ on:
     branches: [main]
 
 env:
-  SERVICE_NAME: raspberry-aws-iot
+  SERVICE_NAME: matt-iot
   AWS_ACCOUNT: 568480506324
   AWS_REGION: eu-west-1
   PYTHON_VERSION: 3.8
@@ -91,6 +91,7 @@ jobs:
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     name: Deploy S3 website to dev
     runs-on: ubuntu-latest
+    needs: deploy-webapp-dev
     steps:
       - uses: actions/checkout@v2
       - name: Configure Dev AWS Credentials
