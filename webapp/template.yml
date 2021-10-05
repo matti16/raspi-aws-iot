@@ -252,6 +252,10 @@ Resources:
           - PUT
           TargetOriginId: S3Origin
           ViewerProtocolPolicy: redirect-to-https
+          ForwardedValues:
+            QueryString: 'false'
+            Cookies:
+              Forward: none
         PriceClass: PriceClass_100
         Restrictions:
           GeoRestriction:
