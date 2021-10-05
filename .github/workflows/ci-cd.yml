@@ -5,7 +5,12 @@ on:
     branches: [main]
   pull_request:
     branches: [main]
-
+  workflow_dispatch:
+    inputs:
+      gitRef:
+        description: "Git SHA commit to be deployed"
+        required: true
+        
 env:
   SERVICE_NAME: matt-iot
   AWS_ACCOUNT: 568480506324
