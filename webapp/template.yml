@@ -276,17 +276,9 @@ Outputs:
   DnsHostname:
     Value: !Join [ '', [ 'https://', !GetAtt CloudFrontDistribution.DomainName ] ] 
 
-  UserPoolId:
-    Description: The user pool ID
-    Value: !Ref CognitoUsers
-
   UserPoolUrl:
     Description: URL of the Cognito provider
     Value:
       Fn::GetAtt:
         - CognitoUsers
         - ProviderURL
-
-  ClientId:
-    Description: The app client ID
-    Value: !Ref ClientAppClient
