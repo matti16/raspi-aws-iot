@@ -235,9 +235,7 @@ Resources:
     Properties:
       DistributionConfig:
         Origins:
-        - DomainName: !GetAtt
-          - S3Bucket
-          - WebsiteURL
+        - DomainName: !Sub "${BucketName}.s3.amazonaws.com"
           Id: S3Origin 
           S3OriginConfig:
             OriginAccessIdentity: !Join [ '/', [ 'origin-access-identity', 'cloudfront', !Ref  CloudFrontOriginAccessIdentity] ]
