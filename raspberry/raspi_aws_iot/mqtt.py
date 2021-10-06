@@ -77,11 +77,12 @@ class MQTTConnection:
         print("Disconnected!")
     
     def send_message(self, topic, message):
-        self.mqtt_connection.publish(
+        response = self.mqtt_connection.publish(
             topic=topic,
             payload=message,
             qos=mqtt.QoS.AT_LEAST_ONCE)
-        print(f"Sent message to {topic}")
+        result = response.result()
+        print(f"Message to {topic}: {result}")
 
     
 
