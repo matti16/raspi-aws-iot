@@ -43,7 +43,7 @@ class CameraStreamMQTT:
     def upload_picture(self):
         encoded_pic = self.camera.get_img()
         msg = {"img": encoded_pic}
-        # msg = json.dumps(msg)
+        msg = json.dumps(msg)
         self.mqtt.send_message(self.topic, msg)
 
     def check_upload(self, interval_min):

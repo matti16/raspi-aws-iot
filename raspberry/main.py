@@ -1,4 +1,5 @@
 import time
+import traceback
 
 from raspi_aws_iot.mqtt import MQTTConnection
 from raspi_aws_iot.config import *
@@ -36,10 +37,11 @@ def main(
         try:
             camera_stream.send_picture()
             time.sleep(5)
-        except Exception as e:
-            print(e)
+        except Exception:
             mqtt_connection.disconnect()
             break
+    
+    traceback.print_exc()
 
 if __name__ == '__main__':
     main()
