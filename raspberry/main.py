@@ -30,7 +30,7 @@ def main(
     mqtt_connection.subscribe(topic, on_msg_received)
 
     camera = Camera(IMG_PATH)
-    camera_stream = CameraStreamMQTT(camera, mqtt_connection, CAMERA_TOPIC)
+    camera_stream = CameraStreamMQTT(camera, mqtt_connection, CAMERA_TOPIC, IMG_PATH)
 
     while True:
         try:
