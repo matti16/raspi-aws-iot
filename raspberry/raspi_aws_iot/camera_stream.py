@@ -11,7 +11,7 @@ from raspi_aws_iot.mqtt import MQTTConnection
 class Camera:
     def __init__(self, img_path):
         self.camera = PiCamera()
-        self.camera.resolution = (1280, 720)
+        self.camera.resolution = (690, 360)
         self.camera.vflip = True
         self.camera.contrast = 10
         time.sleep(3)
