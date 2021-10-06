@@ -11,10 +11,15 @@ var app = new Vue({
         token: null,
     },
 
+    mounted: function() {
+        hash = parseParms(document.location.hash.substring(1));
+        this.token = hash.id_token;
+        console.log(this.token);
+     },
+
     methods: {
         authorize: function() {
             var url = config.authUrl + "?response_type=token&scope=openid&client_id=" + config.clientID + "&redirect_uri=" + config.calbackUrl;
-            console.log(url);
             window.open(url, '_blank').focus(); 
         },
 
@@ -33,6 +38,7 @@ var app = new Vue({
 
                 var headers = new Headers();
                 headers.append("Content-Type", "application/json");
+                headers.append("Authorization", this.token);
                 var requestOptions = {
                     method: 'POST',
                     headers: headers,
@@ -54,4 +60,15 @@ var app = new Vue({
     }
 });
 
-console.log(config.apiHost);
+// Parses the URL parameters and returns an object
+function parseParms(str) {
+	var pieces = str.split("&"), data = {}, i, parts;
+	for (i = 0; i < pieces.length; i++) {
+		parts = pieces[i].split("=");
+		if (parts.length < 2) {
+			parts.push("");
+		}
+		data[decodeURIComponent(parts[0])] = decodeURIComponent(parts[1]);
+	}
+	return data;
+};
