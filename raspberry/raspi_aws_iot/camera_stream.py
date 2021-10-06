@@ -20,8 +20,8 @@ class Camera:
     def get_img(self):
         self._capture_img()
         with open(self.img_path, "rb") as image_file:
-            binary_img = image_file.read()
-        return binary_img
+            encoded_string = base64.encodebytes(image_file.read()).decode('utf-8')
+        return encoded_string
 
     
 
@@ -32,8 +32,9 @@ class CameraStreamMQTT:
         self.topic = topic
     
     def upload_picture(self):
-        binary_img = self.camera.get_img()
-        self.mqtt.send_message(self.topic, binary_img)
+        encoded_pic = self.camera.get_img()
+        msg = {"img": encoded_pic}
+        self.mqtt.send_message(self.topic, msg)
 
     def schedule_stream(self, interval_min=1):
         self.upload_picture()
