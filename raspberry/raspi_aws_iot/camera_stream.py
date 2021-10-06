@@ -36,6 +36,7 @@ class CameraStreamMQTT:
         self.mqtt.send_message(self.topic, binary_img)
 
     def schedule_stream(self, interval_min=1):
+        self.upload_picture()
         print(f"Scheduling camera strean every {interval_min} minutes")
         schedule.every(interval_min).minutes.do(self.upload_picture)
 
