@@ -39,9 +39,8 @@ def main(
             time.sleep(5)
         except Exception:
             mqtt_connection.disconnect()
+            print(traceback.format_exc())
             break
-    
-    traceback.print_exc()
 
 if __name__ == '__main__':
     main()
