@@ -20,8 +20,8 @@ class Camera:
     def get_img(self):
         self._capture_img()
         with open(self.img_path, "rb") as image_file:
-            encoded_string = base64.b64encode(image_file.read())
-        return encoded_string
+            binary_img = image_file.read()
+        return binary_img
 
     
 
@@ -32,13 +32,11 @@ class CameraStreamMQTT:
         self.topic = topic
     
     def upload_picture(self):
-        encoded_pic = self.camera.get_img()
-        msg = {
-            "img": encoded_pic
-        }
-        self.mqtt.send_message(self.topic, msg)
+        binary_img = self.camera.get_img()
+        self.mqtt.send_message(self.topic, binary_img)
 
     def schedule_stream(self, interval_min=1):
+        print(f"Scheduling camera strean every {interval_min} minutes")
         schedule.every(interval_min).minutes.do(self.upload_picture)
 
         

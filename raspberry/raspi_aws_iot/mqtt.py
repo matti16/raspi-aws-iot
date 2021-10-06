@@ -1,8 +1,6 @@
 from awscrt import io, mqtt
 from awsiot import mqtt_connection_builder
 
-import json
-
 def on_connection_interrupted(connection, error, **kwargs):
     print("Connection interrupted. error: {}".format(error))
 
@@ -79,10 +77,9 @@ class MQTTConnection:
         print("Disconnected!")
     
     def send_message(self, topic, message):
-        message_json = json.dumps(message)
         self.mqtt_connection.publish(
             topic=topic,
-            payload=message_json,
+            payload=message,
             qos=mqtt.QoS.AT_LEAST_ONCE)
         print(f"Sent message {message} to {topic}")
 
