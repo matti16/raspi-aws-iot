@@ -1,6 +1,7 @@
 import time
 import base64
 import schedule
+import json
 
 from picamera import PiCamera
 from raspi_aws_iot.mqtt import MQTTConnection
@@ -34,6 +35,7 @@ class CameraStreamMQTT:
     def upload_picture(self):
         encoded_pic = self.camera.get_img()
         msg = {"img": encoded_pic}
+        msg = json.dumps(msg)
         self.mqtt.send_message(self.topic, msg)
 
     def schedule_stream(self, interval_min=1):
