@@ -81,7 +81,7 @@ class MQTTConnection:
             topic=topic,
             payload=message,
             qos=mqtt.QoS.AT_LEAST_ONCE)
-        print(f"Sent message {message} to {topic}")
+        print(f"Sent message to {topic}")
 
     
 
