@@ -11,6 +11,7 @@ KEY = "/home/pi/.aws/private.pem.key"
 ENDPOINT = "a3ig8qh8u66gen-ats.iot.eu-west-1.amazonaws.com"
 
 IMG_PATH = "/home/pi/pictures/tmp.jpg"
+IMG_PATH = "/home/pi/pictures/last_sent.txt"
 
 LEDS = {
     "green": 17,

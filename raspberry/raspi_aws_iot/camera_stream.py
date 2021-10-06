@@ -1,6 +1,8 @@
+import os
 import time
 import base64
-import schedule
+
+from datetime import datetime
 import json
 
 from picamera import PiCamera
@@ -27,10 +29,16 @@ class Camera:
     
 
 class CameraStreamMQTT:
-    def __init__(self, camera: Camera, mqtt: MQTTConnection, topic):
+    def __init__(self, camera: Camera, mqtt: MQTTConnection, topic, last_sent_file: str):
         self.camera = camera
         self.mqtt = mqtt
         self.topic = topic
+        self.last_sent_file = last_sent_file
+        self.date_fmt = "%Y-%m-%d %H:%M:%S"
+
+        directory = os.path.dirname(last_sent_file)
+        if not os.path.exists(directory):
+            os.makedirs(directory)
     
     def upload_picture(self):
         encoded_pic = self.camera.get_img()
@@ -38,11 +46,23 @@ class CameraStreamMQTT:
         msg = json.dumps(msg)
         self.mqtt.send_message(self.topic, msg)
 
-    def schedule_stream(self, interval_min=1):
-        self.upload_picture()
-        print(f"Scheduling camera strean every {interval_min} minutes")
-        schedule.every(interval_min).minutes.do(self.upload_picture)
+    def check_upload(self, interval_min):
+        if os.path.exists(self.last_sent_file):
+            last_sent = open(self.last_sent_file, "r").read()
+            last_sent = datetime.strptime(last_sent, self.date_fmt)
+            now = datetime.now()
+            return (now - last_sent).seconds > interval_min * 60
+        else:
+            return True    
 
+    def send_picture(self, interval_min=1):
+        if self.check_upload(interval_min):
+            print(f"Sending camera stream")
+            self.upload_picture()
+        
+            with open(self.last_sent_file, "w") as f:
+                now = datetime.now()
+                f.write(now.strftime(self.date_fmt))
         
 
 

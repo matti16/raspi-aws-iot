@@ -1,5 +1,4 @@
 import time
-import schedule
 
 from raspi_aws_iot.mqtt import MQTTConnection
 from raspi_aws_iot.config import *
@@ -26,23 +25,17 @@ def main(
     client_id=CLIENT_ID, 
     topic=BASE_TOPIC
     ):
-
-    schedule.clear()
-
     mqtt_connection = MQTTConnection(endpoint, port, cert, key, root_ca, client_id)
     mqtt_connection.connect()
     mqtt_connection.subscribe(topic, on_msg_received)
 
-    mqtt_connection_camera = MQTTConnection(endpoint, port, cert, key, root_ca, client_id)
-    mqtt_connection_camera.connect()
     camera = Camera(IMG_PATH)
-    camera_stream = CameraStreamMQTT(camera, mqtt_connection_camera, CAMERA_TOPIC)
-    camera_stream.schedule_stream()
+    camera_stream = CameraStreamMQTT(camera, mqtt_connection, CAMERA_TOPIC)
 
     while True:
         try:
-            schedule.run_pending()
-            time.sleep(1)
+            camera_stream.send_picture()
+            time.sleep(5)
         except Exception as e:
             print(e)
             mqtt_connection.disconnect()
