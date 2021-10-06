@@ -27,12 +27,16 @@ def main(
     topic=BASE_TOPIC
     ):
 
+    schedule.clear()
+
     mqtt_connection = MQTTConnection(endpoint, port, cert, key, root_ca, client_id)
     mqtt_connection.connect()
     mqtt_connection.subscribe(topic, on_msg_received)
 
+    mqtt_connection_camera = MQTTConnection(endpoint, port, cert, key, root_ca, client_id)
+    mqtt_connection_camera.connect()
     camera = Camera(IMG_PATH)
-    camera_stream = CameraStreamMQTT(camera, mqtt_connection, CAMERA_TOPIC)
+    camera_stream = CameraStreamMQTT(camera, mqtt_connection_camera, CAMERA_TOPIC)
     camera_stream.schedule_stream()
 
     while True:
