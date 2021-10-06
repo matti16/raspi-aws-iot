@@ -3,8 +3,12 @@ name: Deploy to dev
 on:
   push:
     branches: [main]
+    paths:
+      - 'webapp/**'
   pull_request:
     branches: [main]
+    paths:
+      - 'webapp/**'
 
 env:
   SERVICE_NAME: matt-iot
