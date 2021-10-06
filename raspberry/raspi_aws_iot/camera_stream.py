@@ -23,8 +23,8 @@ class Camera:
     def get_img(self):
         self._capture_img()
         with open(self.img_path, "rb") as image_file:
-            encoded_string = base64.encodebytes(image_file.read()).decode('utf-8')
-        return encoded_string
+            img_bytes = image_file.read()
+        return img_bytes
 
     
 
@@ -41,10 +41,10 @@ class CameraStreamMQTT:
             os.makedirs(directory)
     
     def upload_picture(self):
-        encoded_pic = self.camera.get_img()
+        img_bytes = self.camera.get_img()
         msg = {"img": encoded_pic}
         msg = json.dumps(msg)
-        self.mqtt.send_message(self.topic, msg)
+        self.mqtt.send_message(self.topic, img_bytes)
 
     def check_upload(self, interval_min):
         if os.path.exists(self.last_sent_file):
