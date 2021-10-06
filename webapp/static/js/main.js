@@ -8,9 +8,16 @@ var app = new Vue({
         },
         responseMsg: "",
         isLoading: false,
+        token: null,
     },
 
     methods: {
+        authorize: function() {
+            var url = config.authUrl + "?response_type=token&scope=openid&client_id=" + config.clientID + "&redirect_uri=" + config.calbackUrl;
+            console.log(url);
+            window.open(url, '_blank').focus(); 
+        },
+
         sendLeds: async function () {
             this.isLoading = true;
             console.log("Sending Leds ", this.leds);

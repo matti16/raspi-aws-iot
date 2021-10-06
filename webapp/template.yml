@@ -60,6 +60,7 @@ Resources:
       RefreshTokenValidity: 30
       CallbackURLs: 
         - !Join [ '', [ 'https://', !GetAtt CloudFrontDistribution.DomainName ] ] 
+        - 'http://localhost'
       AllowedOAuthFlows:
         - code
         - implicit

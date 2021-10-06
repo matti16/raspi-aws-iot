@@ -8,44 +8,55 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" />
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="css/style.css" media="screen" />
+    
 </head>
 
 <body>
-    <div class="topnav">
-        <p >Matt-IoT </p>
-    </div>
+    <div id="app">
+        <div class="topnav">
+            <p >Matt-IoT </p>
+        </div>
 
-    <div class="sidenav">
-        <a href="#">Leds</a>
-    </div>
+        <div id="logged" v-if="token">
+            <div class="sidenav">
+                <a href="#">Leds</a>
+            </div>
 
-    <div class="main" id="app">
-        
-        <div class="button-container">
-            <button class="led green" 
-                    @click="leds.green = !leds.green"
-                    v-bind:class = "leds.green ? 'on':'off'"> {{ leds.green? "ON": "OFF" }} 
-            </button>
-            
-            <button class="led yellow" 
-                    @click="leds.yellow = !leds.yellow"
-                    v-bind:class = "leds.yellow ? 'on':'off'"> {{ leds.yellow? "ON": "OFF" }}
-            </button>
+            <div class="main">
+                <div class="button-container">
+                    <button class="led green" 
+                            @click="leds.green = !leds.green"
+                            v-bind:class = "leds.green ? 'on':'off'"> {{ leds.green? "ON": "OFF" }} 
+                    </button>
                     
-            <button class="led red" 
-                    @click="leds.red = !leds.red"
-                    v-bind:class = "leds.red ? 'on':'off'"> {{ leds.red? "ON": "OFF" }} 
-            </button>
+                    <button class="led yellow" 
+                            @click="leds.yellow = !leds.yellow"
+                            v-bind:class = "leds.yellow ? 'on':'off'"> {{ leds.yellow? "ON": "OFF" }}
+                    </button>
+                            
+                    <button class="led red" 
+                            @click="leds.red = !leds.red"
+                            v-bind:class = "leds.red ? 'on':'off'"> {{ leds.red? "ON": "OFF" }} 
+                    </button>
+                </div>
+
+                <div class="button-container">
+                    <button :disabled="isLoading" class="submit" @click="sendLeds()" >SET</button>
+                </div>
+
+                <div class="msg-container">
+                    <h3>{{ responseMsg }}</h3>
+                </div>
+            </div>
         </div>
 
-        <div class="button-container">
-            <button :disabled="isLoading" class="submit" @click="sendLeds()" >SET</button>
+        <div id="unauthorized" v-if="!token">
+            <h3>You are not logged in. </h3>
+            <h3>Click the button to log in.</h3>
+            <div class="button-container">
+                <button class="submit" @click="authorize()" >SET</button>
+            </div>
         </div>
-
-        <div class="msg-container">
-            <h3>{{ responseMsg }}</h3>
-        </div>
-
 
     </div>
 
@@ -53,5 +64,4 @@
 
 
 <script src="js/main.js"></script>
-
 </html>
