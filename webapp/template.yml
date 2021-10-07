@@ -234,6 +234,14 @@ Resources:
         BlockPublicPolicy: true
         IgnorePublicAcls: true
         RestrictPublicBuckets: true
+      LifecycleConfiguration:
+        Rules:
+          - Id: DeleteOldData
+            Status: Enabled
+            ExpirationInDays: 7
+            Transitions:
+              - TransitionInDays: 1
+                StorageClass: STANDARD_IA
   
   CameraTopicRule:
     Type: AWS::IoT::TopicRule
@@ -250,6 +258,13 @@ Resources:
               - LambdaRole
               - Arn
             Key: camera/latest/${topic(4)}/latest.jpg
+        - S3:
+            BucketName: !Ref S3BucketData
+            RoleArn:
+              Fn::GetAtt:
+              - LambdaRole
+              - Arn
+            Key: camera/history/${topic(4)}/${timestamp()}.jpg
 
   CloudFrontOriginAccessIdentity:
     Type: AWS::CloudFront::CloudFrontOriginAccessIdentity

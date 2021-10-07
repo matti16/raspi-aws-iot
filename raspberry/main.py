@@ -27,7 +27,7 @@ def main():
 
     while True:
         try:
-            camera_stream.send_picture()
+            camera_stream.send_picture(interval_min=CAMERA_INTERVAL_MIN)
             time.sleep(5)
         except Exception:
             mqtt_connection.disconnect()
