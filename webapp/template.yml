@@ -133,7 +133,7 @@ Resources:
     Properties:
       AuthorizationType: NONE
       RestApiId: !Ref ApiGateway
-      ResourceId: !GetAtt ApiGateway.RootResourceId
+      ResourceId: !Ref ApiGatewayProxyResource
       HttpMethod: OPTIONS
       Integration:
         IntegrationResponses:
