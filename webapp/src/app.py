@@ -3,13 +3,19 @@ import json
 
 from fastapi import FastAPI, Body
 from mangum import Mangum
-from starlette.middleware.cors import CORSMiddleware
+from fastapi.middleware.cors import CORSMiddleware
 
 from config import *
 
 
 app = FastAPI(root_path=BASE_PATH)
-app.add_middleware(CORSMiddleware, allow_origin_regex=r"*", allow_methods=["*"], allow_headers=["*"])
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 def send_mqtt_msg(msg):
     client = boto3.client('iot-data', region_name=REGION)
