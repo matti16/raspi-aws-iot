@@ -112,7 +112,7 @@ Resources:
         - RootResourceId
       PathPart: "{proxy+}"
 
-  ApiGatewayProxyMethod:
+  ApiGatewayProxyMethodPost:
     Type: AWS::ApiGateway::Method
     Properties:
       ApiKeyRequired: false
@@ -120,9 +120,25 @@ Resources:
       AuthorizerId: !Ref ApiAuthorizer
       RestApiId: !Ref ApiGateway
       ResourceId: !Ref ApiGatewayProxyResource
-      HttpMethod: POST,GET
+      HttpMethod: POST
       Integration:
         IntegrationHttpMethod: POST
+        Type: AWS_PROXY
+        Uri: !Sub
+          - arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${lambdaArn}/invocations
+          - lambdaArn: !GetAtt LambdaDispatcher.Arn
+
+  ApiGatewayProxyMethodGet:
+    Type: AWS::ApiGateway::Method
+    Properties:
+      ApiKeyRequired: false
+      AuthorizationType: COGNITO_USER_POOLS
+      AuthorizerId: !Ref ApiAuthorizer
+      RestApiId: !Ref ApiGateway
+      ResourceId: !Ref ApiGatewayProxyResource
+      HttpMethod: GET
+      Integration:
+        IntegrationHttpMethod: GET
         Type: AWS_PROXY
         Uri: !Sub
           - arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${lambdaArn}/invocations
