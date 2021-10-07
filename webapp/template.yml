@@ -245,8 +245,7 @@ Resources:
         Sql: !Sub "SELECT * FROM  '${ServiceName}/${Env}/camera/#'"
         Actions:
         - S3:
-            BucketName:
-              Ref: S3BucketData
+            BucketName: !Ref S3BucketData
             RoleArn:
               Fn::GetAtt:
               - LambdaRole
