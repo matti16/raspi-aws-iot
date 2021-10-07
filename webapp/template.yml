@@ -246,7 +246,7 @@ Resources:
       LifecycleConfiguration:
         Rules:
           - Id: DeleteOldCameraData
-            prefix: camera/history/
+            Prefix: camera/history/
             Status: Enabled
             ExpirationInDays: 14
   
