@@ -153,7 +153,7 @@ Resources:
       Code:
         ImageUri: !Sub "${Account}.dkr.ecr.${Region}.amazonaws.com/${ServiceName}:${ImageTag}"
       ImageConfig:
-        Command: ["handlers.handler"]
+        Command: ["app.handler"]
         EntryPoint: ["/lambda-entrypoint.sh"]
         WorkingDirectory: "/var/task/"
       Environment:
