@@ -28,9 +28,9 @@ def send_mqtt_msg(msg):
     
 
 @app.post("/cmd")
-def cmd_handler(body: Body(...)):
+def cmd_handler(body):
     print(f"Received: {body}")
     send_mqtt_msg(body)
-    return {"status": "OK", "cmd": body}
+    return {"status": "OK"}
 
 handler = Mangum(app)
