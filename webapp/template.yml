@@ -103,14 +103,23 @@ Resources:
       RestApiId: !Ref ApiGateway
       Type: COGNITO_USER_POOLS
   
-  ApiGatewayRootMethod:
+  ApiGatewayProxyResource:
+    Type: 'AWS::ApiGateway::Resource'
+    Properties:
+      RestApiId: !Ref ApiGateway
+      ParentId: !GetAtt 
+        - ApiGateway
+        - RootResourceId
+      PathPart: {proxy+}
+
+  ApiGatewayProxyMethod:
     Type: AWS::ApiGateway::Method
     Properties:
       ApiKeyRequired: false
       AuthorizationType: COGNITO_USER_POOLS
       AuthorizerId: !Ref ApiAuthorizer
       RestApiId: !Ref ApiGateway
-      ResourceId: !GetAtt ApiGateway.RootResourceId
+      ResourceId: !Ref ApiGatewayProxyResource
       HttpMethod: POST
       Integration:
         IntegrationHttpMethod: POST
@@ -239,9 +248,6 @@ Resources:
           - Id: DeleteOldData
             Status: Enabled
             ExpirationInDays: 7
-            Transitions:
-              - TransitionInDays: 1
-                StorageClass: STANDARD_IA
   
   CameraTopicRule:
     Type: AWS::IoT::TopicRule
