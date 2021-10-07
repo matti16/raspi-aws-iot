@@ -31,6 +31,11 @@ def send_mqtt_msg(msg):
 @app.post("/cmd")
 def cmd_handler(body: Dict[AnyStr, Any]):
     print(f"Received: {body}")
+    body = {
+        key.decode() if isinstance(key, bytes) else key:
+        val.decode() if isinstance(val, bytes) else val
+        for key, val in body.items()
+    }
     send_mqtt_msg(body)
     return {"status": "OK"}
 
