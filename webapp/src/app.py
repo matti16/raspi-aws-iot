@@ -4,6 +4,7 @@ import json
 from fastapi import FastAPI, Body
 from mangum import Mangum
 from fastapi.middleware.cors import CORSMiddleware
+from typing import Any, Dict, AnyStr
 
 from config import *
 
@@ -28,7 +29,7 @@ def send_mqtt_msg(msg):
     
 
 @app.post("/cmd")
-def cmd_handler(body):
+def cmd_handler(body: Dict[AnyStr, Any]):
     print(f"Received: {body}")
     send_mqtt_msg(body)
     return {"status": "OK"}
