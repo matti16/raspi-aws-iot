@@ -1,17 +1,15 @@
 import os
 import time
-import base64
 
 from datetime import datetime
-import json
 
 from picamera import PiCamera
 from raspi_aws_iot.mqtt import MQTTConnection
 
 class Camera:
-    def __init__(self, img_path):
+    def __init__(self, img_path, resolution):
         self.camera = PiCamera()
-        self.camera.resolution = (256, 256)
+        self.camera.resolution = resolution
         self.camera.vflip = True
         self.camera.contrast = 10
         time.sleep(3)
@@ -42,8 +40,6 @@ class CameraStreamMQTT:
     
     def upload_picture(self):
         img_bytes = self.camera.get_img()
-        # msg = {"img": encoded_pic}
-        # msg = json.dumps(msg)
         self.mqtt.send_message(self.topic, img_bytes)
 
     def check_upload(self, interval_min):

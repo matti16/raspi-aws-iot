@@ -179,7 +179,7 @@ Resources:
       Environment:
         Variables:
           REGION: !Sub "${Region}"
-          IOT_TOPIC: !Sub "${ServiceName}/${Env}"
+          IOT_TOPIC: !Sub "${ServiceName}/${Env}/cmd"
 
   LambdaRole:
     Type: "AWS::IAM::Role"
@@ -224,6 +224,34 @@ Resources:
                 - !Ref S3Bucket
                 - /*
       Bucket: !Ref S3Bucket
+  
+  S3BucketData:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: !Sub "${ServiceName}-data-${Env}"
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: true
+        BlockPublicPolicy: true
+        IgnorePublicAcls: true
+        RestrictPublicBuckets: true
+  
+  CameraTopicRule:
+    Type: AWS::IoT::TopicRule
+    Properties:
+      RuleName:
+        Ref: !Sub "${ServiceName}-camera-${Env}"
+      TopicRulePayload:
+        RuleDisabled: false
+        Sql: !Sub "SELECT * FROM  '${ServiceName}/${Env}/camera/#'"
+        Actions:
+        - S3:
+            BucketName:
+              Ref: S3BucketData
+            RoleArn:
+              Fn::GetAtt:
+              - LambdaRole
+              - Arn
+            Key: camera/latest/${topic(4)}/latest.jpg
 
   CloudFrontOriginAccessIdentity:
     Type: AWS::CloudFront::CloudFrontOriginAccessIdentity

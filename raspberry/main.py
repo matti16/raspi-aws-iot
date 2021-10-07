@@ -17,20 +17,12 @@ def on_msg_received(topic, payload, dup, qos, retain, **kwargs):
         print(e)
 
 
-def main(
-    endpoint=ENDPOINT, 
-    port=PORT, 
-    cert=CERT, 
-    key=KEY, 
-    root_ca=ROOT_CA, 
-    client_id=CLIENT_ID, 
-    topic=BASE_TOPIC
-    ):
-    mqtt_connection = MQTTConnection(endpoint, port, cert, key, root_ca, client_id)
+def main():
+    mqtt_connection = MQTTConnection(ENDPOINT, PORT, CERT, KEY, ROOT_CA, CLIENT_ID)
     mqtt_connection.connect()
-    mqtt_connection.subscribe(topic, on_msg_received)
+    mqtt_connection.subscribe(CMD_TOPIC, on_msg_received)
 
-    camera = Camera(IMG_PATH)
+    camera = Camera(IMG_PATH, CAMERA_RESOLUTION)
     camera_stream = CameraStreamMQTT(camera, mqtt_connection, CAMERA_TOPIC, LAST_IMG_SENT_PATH)
 
     while True:

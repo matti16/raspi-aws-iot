@@ -3,6 +3,9 @@ from uuid import uuid4
 BASE_TOPIC = "matt-iot/dev"
 CLIENT_ID = "1"
 
+CAMERA_TOPIC = f"{BASE_TOPIC}/camera/{CLIENT_ID}"
+CMD_TOPIC = f"{BASE_TOPIC}/cmd"
+
 PORT = 443
 
 ROOT_CA = "/home/pi/.aws/Amazon-root-CA-1.pem"
@@ -19,6 +22,7 @@ LEDS = {
     "red": 6
 }
 
-CAMERA_TOPIC = f"{BASE_TOPIC}/{CLIENT_ID}/camera"
+CAMERA_RESOLUTION = (512, 320)
+
 
 
