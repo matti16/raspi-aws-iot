@@ -214,11 +214,16 @@ Resources:
       AssumeRolePolicyDocument: 
         Version: "2012-10-17"
         Statement: 
-          - 
-            Effect: "Allow"
+          - Effect: "Allow"
             Principal: 
               Service: 
                 - "lambda.amazonaws.com"
+            Action: 
+              - "sts:AssumeRole"
+          - Effect: "Allow"
+            Principal: 
+              Service: 
+                - "iot.amazonaws.com"
             Action: 
               - "sts:AssumeRole"
       ManagedPolicyArns:
