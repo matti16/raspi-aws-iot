@@ -27,7 +27,7 @@ var app = new Vue({
             this.isLoading = true;
             console.log("Sending Leds ", this.leds);
             try {
-                const url = config.apiHost;
+                const url = config.apiHost + "/cmd";
                 let data = {
                     "msg_type": "led",
                     "msg_body": {

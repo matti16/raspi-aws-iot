@@ -245,9 +245,10 @@ Resources:
         RestrictPublicBuckets: true
       LifecycleConfiguration:
         Rules:
-          - Id: DeleteOldData
+          - Id: DeleteOldCameraData
+            prefix: camera/history/
             Status: Enabled
-            ExpirationInDays: 7
+            ExpirationInDays: 14
   
   CameraTopicRule:
     Type: AWS::IoT::TopicRule
