@@ -9,7 +9,7 @@ from config import *
 
 
 app = FastAPI(root_path=BASE_PATH)
-app.add_middleware(CORSMiddleware, allow_origin_regex="*", allow_methods=["*"], allow_headers=["*"])
+app.add_middleware(CORSMiddleware, allow_origin_regex=r"*", allow_methods=["*"], allow_headers=["*"])
 
 def send_mqtt_msg(msg):
     client = boto3.client('iot-data', region_name=REGION)
