@@ -238,8 +238,7 @@ Resources:
   CameraTopicRule:
     Type: AWS::IoT::TopicRule
     Properties:
-      RuleName:
-        Ref: !Sub "${ServiceName}-camera-${Env}"
+      RuleName: !Sub "${ServiceName}-camera-${Env}"
       TopicRulePayload:
         RuleDisabled: false
         Sql: !Sub "SELECT * FROM  '${ServiceName}/${Env}/camera/#'"
