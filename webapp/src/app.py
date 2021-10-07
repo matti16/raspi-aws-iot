@@ -5,7 +5,7 @@ from fastapi import FastAPI, Body
 from mangum import Mangum
 from starlette.middleware.cors import CORSMiddleware
 
-from .config import *
+from config import *
 
 
 app = FastAPI(root_path=BASE_PATH)
