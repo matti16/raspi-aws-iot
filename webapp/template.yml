@@ -110,7 +110,7 @@ Resources:
       ParentId: !GetAtt 
         - ApiGateway
         - RootResourceId
-      PathPart: {proxy+}
+      PathPart: "{proxy+}"
 
   ApiGatewayProxyMethod:
     Type: AWS::ApiGateway::Method
