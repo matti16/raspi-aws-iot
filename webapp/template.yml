@@ -116,8 +116,8 @@ Resources:
     Type: AWS::ApiGateway::Method
     Properties:
       ApiKeyRequired: false
-      AuthorizationType: NONE #COGNITO_USER_POOLS
-      #AuthorizerId: !Ref ApiAuthorizer
+      AuthorizationType: COGNITO_USER_POOLS
+      AuthorizerId: !Ref ApiAuthorizer
       RestApiId: !Ref ApiGateway
       ResourceId: !Ref ApiGatewayProxyResource
       HttpMethod: ANY

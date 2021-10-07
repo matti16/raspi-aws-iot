@@ -9,7 +9,7 @@ from typing import Any, Dict, AnyStr
 from config import *
 
 
-app = FastAPI(root_path=BASE_PATH)
+app = FastAPI()
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -28,7 +28,7 @@ def send_mqtt_msg(msg):
     return response
     
 
-@app.post("/cmd")
+@app.post(f"{BASE_PATH}/cmd")
 def cmd_handler(body: Dict[AnyStr, Any]):
     print(f"Received: {body}")
     body = {
