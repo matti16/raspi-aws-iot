@@ -23,29 +23,39 @@
             </div>
 
             <div class="main">
-                <div class="button-container">
-                    <button class="led green" 
-                            @click="leds.green = !leds.green"
-                            v-bind:class = "leds.green ? 'on':'off'"> {{ leds.green? "ON": "OFF" }} 
-                    </button>
+                <div>
+                    <div class="button-container">
+                        <button class="led green" 
+                                @click="leds.green = !leds.green"
+                                v-bind:class = "leds.green ? 'on':'off'"> {{ leds.green? "ON": "OFF" }} 
+                        </button>
+                        
+                        <button class="led yellow" 
+                                @click="leds.yellow = !leds.yellow"
+                                v-bind:class = "leds.yellow ? 'on':'off'"> {{ leds.yellow? "ON": "OFF" }}
+                        </button>
+                                
+                        <button class="led red" 
+                                @click="leds.red = !leds.red"
+                                v-bind:class = "leds.red ? 'on':'off'"> {{ leds.red? "ON": "OFF" }} 
+                        </button>
+                    </div>
+
+                    <div class="button-container">
+                        <button :disabled="isLoading" class="submit" @click="sendLeds()" >SET</button>
+                    </div>
+
+                    <div class="msg-container">
+                        <h3>{{ responseMsg }}</h3>
+                    </div>
+                </div>
+
+                <div>
                     
-                    <button class="led yellow" 
-                            @click="leds.yellow = !leds.yellow"
-                            v-bind:class = "leds.yellow ? 'on':'off'"> {{ leds.yellow? "ON": "OFF" }}
-                    </button>
-                            
-                    <button class="led red" 
-                            @click="leds.red = !leds.red"
-                            v-bind:class = "leds.red ? 'on':'off'"> {{ leds.red? "ON": "OFF" }} 
-                    </button>
-                </div>
+                    <div class="button-container">
+                        <button :disabled="isLoading" class="submit" @click="getCameraImages()" >REFRESH</button>
+                    </div>
 
-                <div class="button-container">
-                    <button :disabled="isLoading" class="submit" @click="sendLeds()" >SET</button>
-                </div>
-
-                <div class="msg-container">
-                    <h3>{{ responseMsg }}</h3>
                 </div>
             </div>
         </div>

@@ -9,12 +9,17 @@ var app = new Vue({
         responseMsg: "",
         isLoading: false,
         token: null,
+        cameraImages: [],
     },
 
     mounted: function() {
         hash = parseParms(document.location.hash.substring(1));
-        this.token = hash.id_token;
-        console.log(this.token);
+        if (hash.id_token) {
+            this.token = hash.id_token;
+            document.cookie = "mattiotToken=" + this.token + "; max-age=3600; path=/;";
+        } else {
+            this.token = getCookie("mattiotToken");
+        }
      },
 
     methods: {
@@ -56,7 +61,28 @@ var app = new Vue({
                 this.responseMsg = "An error occurred";
             }
             this.isLoading = false;
-        }
+        },
+
+        getCameraImages: async function() {
+            this.isLoading = true;
+            try {
+                const url = config.apiHost + "/camera";
+                var headers = new Headers();
+                headers.append("Authorization", this.token);
+                var requestOptions = {
+                    method: 'GET',
+                    headers: headers,
+                    redirect: 'follow'
+                };
+
+                let response = await fetch(url, requestOptions);
+                response = await response.text();
+                console.log('Response', response);
+            } catch (error) {
+                console.error('internal server error', error);
+            }
+            this.isLoading = false;
+        },
     }
 });
 
@@ -71,4 +97,13 @@ function parseParms(str) {
 		data[decodeURIComponent(parts[0])] = decodeURIComponent(parts[1]);
 	}
 	return data;
+};
+
+function getCookie(cookieName) {
+    let cookie = {};
+    document.cookie.split(';').forEach(function(el) {
+      let [key,value] = el.split('=');
+      cookie[key.trim()] = value;
+    })
+    return cookie[cookieName];
 };
