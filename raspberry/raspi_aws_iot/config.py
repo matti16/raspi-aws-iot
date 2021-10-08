@@ -4,7 +4,7 @@ CLIENT_ID = "1"
 CAMERA_TOPIC = f"{BASE_TOPIC}/camera/{CLIENT_ID}"
 CMD_TOPIC = f"{BASE_TOPIC}/cmd"
 
-OUTPUT_FOLDER = "/home/pi/raspberry/tmp"
+OUTPUT_FOLDER = "/home/pi/raspi-aws-iot/raspberry/tmp"
 
 PORT = 443
 

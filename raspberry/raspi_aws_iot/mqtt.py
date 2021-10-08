@@ -1,24 +1,23 @@
 from awscrt import io, mqtt
 from awsiot import mqtt_connection_builder
 import sys
-import logging
 
 def on_connection_interrupted(connection, error, **kwargs):
-    logging.error("Connection interrupted. error: {}".format(error))
+    print("Connection interrupted. error: {}".format(error), flush=True)
     sys.exit(1)
 
 def on_resubscribe_complete(resubscribe_future):
     resubscribe_results = resubscribe_future.result()
-    logging.info("Resubscribe results: {}".format(resubscribe_results))
+    print("Resubscribe results: {}".format(resubscribe_results))
     for topic, qos in resubscribe_results['topics']:
         if qos is None:
             raise Exception("Server rejected resubscribe to topic: {}".format(topic))
 
 # Callback when an interrupted connection is re-established.
 def on_connection_resumed(connection, return_code, session_present, **kwargs):
-    logging.info("Connection resumed. return_code: {} session_present: {}".format(return_code, session_present))
+    print("Connection resumed. return_code: {} session_present: {}".format(return_code, session_present), flush=True)
     if return_code == mqtt.ConnectReturnCode.ACCEPTED and not session_present:
-        print("Session did not persist. Resubscribing to existing topics...")
+        print("Session did not persist. Resubscribing to existing topics...", flush=True)
         resubscribe_future, _ = connection.resubscribe_existing_topics()
         resubscribe_future.add_done_callback(on_resubscribe_complete)
 
@@ -62,7 +61,7 @@ class MQTTConnection:
     def connect(self):
         connect_future = self.mqtt_connection.connect()
         connect_future.result()
-        logging.info("Connected!")
+        print("Connected!", flush=True)
 
     def subscribe(self, topic, callback, qos=mqtt.QoS.AT_LEAST_ONCE):
         subscribe_future, _ = self.mqtt_connection.subscribe(
@@ -71,13 +70,13 @@ class MQTTConnection:
             callback=callback
         )
         subscribe_result = subscribe_future.result()
-        logging.info(f"Subscribed to {topic} with {subscribe_result['qos']}")
+        print(f"Subscribed to {topic} with {subscribe_result['qos']}", flush=True)
     
     def disconnect(self):
-        logging.info("Disconnecting...")
+        print("Disconnecting...", flush=True)
         disconnect_future = self.mqtt_connection.disconnect()
         disconnect_future.result()
-        logging.info("Disconnected!")
+        print("Disconnected!", flush=True)
     
     def send_message(self, topic, message):
         response, _ = self.mqtt_connection.publish(
@@ -85,7 +84,7 @@ class MQTTConnection:
             payload=message,
             qos=mqtt.QoS.AT_LEAST_ONCE)
         result = response.result()
-        logging.info(f"Message to {topic}: {result}")
+        print(f"Message to {topic}: {result}", flush=True)
 
     
 

@@ -6,12 +6,10 @@ from raspi_aws_iot.config import *
 from raspi_aws_iot.controller import Controller
 from raspi_aws_iot.camera_stream import Camera, CameraStreamMQTT
 
-import logging
-
 ctrl = Controller(LEDS)
 
 def on_msg_received(topic, payload, dup, qos, retain, **kwargs):
-    logging.info(f"Received message from topic '{topic}': {payload}")
+    print(f"Received message from topic '{topic}': {payload}", flush=True)
     try:
         ctrl.parse_msg(payload)
     except Exception as e:
@@ -33,7 +31,7 @@ def main():
             time.sleep(1)
         except Exception:
             mqtt_connection.disconnect()
-            print(traceback.format_exc())
+            print(traceback.format_exc(), flush=True)
             break
 
 if __name__ == '__main__':
