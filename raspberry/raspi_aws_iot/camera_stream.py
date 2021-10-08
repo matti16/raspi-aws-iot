@@ -44,7 +44,7 @@ class CameraStreamMQTT:
         self.mqtt.send_message(self.topic, img_bytes)
 
     def remove_last_sent(self):
-        if not os.path.exists(self.last_sent_file):
+        if os.path.exists(self.last_sent_file):
             os.remove(self.last_sent_file)
 
     def check_upload(self, interval_min):
