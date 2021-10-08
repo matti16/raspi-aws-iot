@@ -14,7 +14,7 @@ class Camera:
         self.camera.contrast = 10
         time.sleep(3)
         self.camera_path = camera_path
-        self.img_path = f"{self.img_path}/tmp.jpg"
+        self.img_path = f"{self.camera_path}/tmp.jpg"
 
     def _capture_img(self):
         self.camera.capture(self.img_path)
