@@ -1,12 +1,11 @@
-import boto3
-import json
-
-from fastapi import FastAPI, Body
+from fastapi import FastAPI
 from mangum import Mangum
 from fastapi.middleware.cors import CORSMiddleware
-from typing import Any, Dict, AnyStr
+from typing import Any, Dict, AnyStr, List
 
-from config import *
+from config import BASE_PATH
+from services import send_mqtt_msg, get_camera_images_from_s3
+from models import CameraImageItem
 
 
 app = FastAPI()
@@ -17,15 +16,6 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
-def send_mqtt_msg(msg):
-    client = boto3.client('iot-data', region_name=REGION)
-    response = client.publish(
-        topic=IOT_TOPIC,
-        qos=1,
-        payload=json.dumps(msg)
-    )
-    return response
     
 
 @app.post(f"{BASE_PATH}/cmd")
@@ -38,5 +28,13 @@ def cmd_handler(body: Dict[AnyStr, Any]):
     }
     send_mqtt_msg(body)
     return {"status": "OK"}
+
+
+@app.get(f"{BASE_PATH}/camera")
+def get_camera_images() -> List[CameraImageItem]:
+    result = get_camera_images_from_s3()
+    return result
+
+
 
 handler = Mangum(app)
