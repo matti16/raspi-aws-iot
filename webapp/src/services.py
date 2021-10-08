@@ -1,8 +1,7 @@
 import boto3
 import json
 
-from config import REGION, IOT_TOPIC, DATA_BUCKET
-from webapp.src.config import CAMERAS_PATH
+from config import REGION, IOT_TOPIC, DATA_BUCKET, CAMERAS_PATH
 
 from models import CameraImageItem
 
