@@ -182,6 +182,11 @@ Resources:
       RestApiId: !Ref ApiGateway
       StageName: !Ref Env
 
+  ApiGatewayAccount:
+    Type: 'AWS::ApiGateway::Account'
+    Properties:
+      CloudWatchRoleArn: "arn:aws:iam::568480506324:role/api-gateway-role"
+
   LambdaApiGatewayInvoke:
     Type: AWS::Lambda::Permission
     Properties:
