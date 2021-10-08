@@ -1,9 +1,10 @@
 from enum import Enum
-from typing import Union
+from typing import Union, Optional
 from pydantic import BaseModel
 
 class MsgType(Enum):
     LED = "led"
+    CAMERA = "camera"
 
 
 class LedCommand(BaseModel):
@@ -13,4 +14,4 @@ class LedCommand(BaseModel):
 
 class Message(BaseModel):
     msg_type: MsgType
-    msg_body: Union[LedCommand]
+    msg_body: Optional[Union[LedCommand]] = None

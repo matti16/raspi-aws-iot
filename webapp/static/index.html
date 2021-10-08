@@ -19,11 +19,12 @@
 
         <div v-if="token">
             <div class="sidenav">
-                <a href="#">Leds</a>
+                <a href="#tab=led" @click="tab='led'">Leds</a><br>
+                <a href="#tab=camera" @click="tab='camera'">Camera</a>
             </div>
 
             <div class="main">
-                <div>
+                <div v-if="tab == 'led'">
                     <div class="button-container">
                         <button class="led green" 
                                 @click="leds.green = !leds.green"
@@ -50,10 +51,19 @@
                     </div>
                 </div>
 
-                <div>
-                    
+                <div v-if="tab == 'camera'">
+                    <div>
+                        <div class="card" v-for="item in cameraImages">
+                            <img :src="item.image_url" style="width:100%">
+                            <div class="container">
+                                <p><b>Device {{item.device_id}}</b></p>
+                                <p>Last update: {{item.last_modified_date}}</p>
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="button-container">
-                        <button :disabled="isLoading" class="submit" @click="getCameraImages()" >REFRESH</button>
+                        <button :disabled="isLoading" class="submit" @click="refreshCameraImages()" >REFRESH</button>
                     </div>
 
                 </div>

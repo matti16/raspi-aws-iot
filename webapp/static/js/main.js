@@ -10,6 +10,7 @@ var app = new Vue({
         isLoading: false,
         token: null,
         cameraImages: [],
+        tab: "led",
     },
 
     mounted: function() {
@@ -20,6 +21,14 @@ var app = new Vue({
         } else {
             this.token = getCookie("mattiotToken");
         }
+
+        if (this.token){
+            this.getCameraImages();
+        }
+
+        if (hash.tab) {
+            this.tab = hash.tab;
+        }
      },
 
     methods: {
@@ -28,17 +37,14 @@ var app = new Vue({
             window.open(url, '_blank').focus(); 
         },
 
-        sendLeds: async function () {
+        sendCmd: async function(msg_type, msg_body) {
             this.isLoading = true;
-            console.log("Sending Leds ", this.leds);
+            console.log("Sending ", msg_type);
             try {
                 const url = config.apiHost + "/cmd";
                 let data = {
-                    "msg_type": "led",
-                    "msg_body": {
-                        "leds": ["green", "yellow", "red"],
-                        "status": [this.leds.green, this.leds.yellow, this.leds.red],
-                    }
+                    "msg_type": msg_type,
+                    "msg_body": msg_body
                 };
 
                 var headers = new Headers();
@@ -63,6 +69,14 @@ var app = new Vue({
             this.isLoading = false;
         },
 
+        sendLeds: async function () {
+            var body = {
+                "leds": ["green", "yellow", "red"],
+                "status": [this.leds.green, this.leds.yellow, this.leds.red],
+            };
+            this.sendCmd("led", body);
+        },
+
         getCameraImages: async function() {
             this.isLoading = true;
             try {
@@ -78,11 +92,19 @@ var app = new Vue({
                 let response = await fetch(url, requestOptions);
                 response = await response.text();
                 console.log('Response', response);
+                this.cameraImages = JSON.parse(response);
             } catch (error) {
                 console.error('internal server error', error);
             }
             this.isLoading = false;
         },
+
+        refreshCameraImages: async function () {
+            await this.sendCmd("camera", null);
+            this.isLoading = true;
+            await new Promise(r => setTimeout(r, 5000));
+            this.getCameraImages();
+        }
     }
 });
 

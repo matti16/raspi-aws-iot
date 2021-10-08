@@ -14,6 +14,7 @@ body {
 .topnav {
     background-color: #111;
     overflow: hidden;
+    margin-left: 160px; 
 }
 
 .topnav p {
@@ -22,7 +23,7 @@ body {
     text-decoration: none;
     font-size: 25px;
     font-weight: bold;
-    color: aquamarine;
+    color: #fafafa;
 }
 
 
@@ -33,9 +34,10 @@ body {
     position: fixed; /* Fixed Sidebar (stay in place on scroll) */
     z-index: 1; /* Stay on top */
     left: 0;
+    top: 0;
     background-color: #222; /* Black */
     overflow-x: hidden; /* Disable horizontal scroll */
-    padding-top: 20px;
+    padding-top: 90px;
 }
   
   /* The navigation menu links */
@@ -56,6 +58,7 @@ body {
 .main {
     margin-left: 160px; /* Same as the width of the sidebar */
     padding: 0px 10px;
+    margin-top: 30px;
 }
   
   /* On smaller screens, where height is less than 450px, change the style of the sidebar (less padding and a smaller font size) */
@@ -100,7 +103,7 @@ button.submit {
 }
 
 button.submit:hover{
-    box-shadow: 0 4px 4px 0 aquamarine, 0 4px 4px 0 aquamarine;
+    box-shadow: 0 4px 4px 0 #fafafa, 0 4px 4px 0 #fafafa;
 }
 
 button.led {
@@ -147,4 +150,30 @@ button.led.red.off {
     text-align: center;
     color: aquamarine;
     text-transform: uppercase;
+}
+
+
+.card {
+    /* Add shadows to create the "card" effect */
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    transition: 0.3s;
+    border-radius: 5px; /* 5px rounded corners */
+    text-align: center;
+    background-color: #fafafa;
+    max-width: 500px;
+    margin: auto;
+}
+  
+/* On mouse-over, add a deeper shadow */
+.card:hover {
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+}
+  
+/* Add some padding inside the card container */
+.container {
+    padding: 2px 4px;
+}
+
+.card img {
+    border-radius: 5px 5px 0 0;
 }
