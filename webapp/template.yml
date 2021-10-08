@@ -206,6 +206,7 @@ Resources:
         Variables:
           REGION: !Sub "${Region}"
           IOT_TOPIC: !Sub "${ServiceName}/${Env}/cmd"
+          DATA_BUCKET: !Ref S3BucketData
 
   LambdaRole:
     Type: "AWS::IAM::Role"
