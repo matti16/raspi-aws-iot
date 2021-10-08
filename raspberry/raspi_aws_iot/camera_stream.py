@@ -28,14 +28,14 @@ class Camera:
     
 
 class CameraStreamMQTT:
-    def __init__(self, camera: Camera, mqtt: MQTTConnection, topic, last_sent_file: str):
+    def __init__(self, camera: Camera, mqtt: MQTTConnection, topic):
         self.camera = camera
         self.mqtt = mqtt
         self.topic = topic
         self.last_sent_file = f"{camera.camera_path}/last_sent.txt"
         self.date_fmt = "%Y-%m-%d %H:%M:%S"
 
-        directory = os.path.dirname(last_sent_file)
+        directory = os.path.dirname(self.last_sent_file)
         if not os.path.exists(directory):
             os.makedirs(directory)
     
