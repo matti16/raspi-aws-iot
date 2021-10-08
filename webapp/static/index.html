@@ -13,11 +13,11 @@
 
 <body>
     <div id="app">
-        <div class="topnav">
-            <p >Matt-IoT </p>
-        </div>
-
         <div v-if="token">
+            <div class="topnav">
+                <p >Matt-IoT </p>
+            </div>
+    
             <div class="sidenav">
                 <a href="#tab=led" @click="tab='led'">Leds</a><br>
                 <a href="#tab=camera" @click="tab='camera'">Camera</a>
