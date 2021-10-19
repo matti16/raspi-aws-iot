@@ -15,8 +15,8 @@ class MoistureSensor:
 
     def read_humidity(self):
         value_read = self.adc.analogRead(self.chn)
-        value_perc = (value_read - self.max_v) / (self.max_v - self.min_v) * 100
-        value_perc = min(max(value_perc, 100), 0)
+        value_perc = (value_read - self.min_v) / (self.max_v - self.min_v) * 100
+        value_perc = max(min(value_perc, 100), 0)
         humidity = 100 - value_perc
         return humidity
 
