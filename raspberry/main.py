@@ -5,6 +5,7 @@ from raspi_aws_iot.mqtt import MQTTConnection
 from raspi_aws_iot.config import *
 from raspi_aws_iot.controller import Controller
 from raspi_aws_iot.camera_stream import Camera, CameraStreamMQTT
+from raspi_aws_iot.moisture_sensor import MoistureStreamMQTT
 
 ctrl = Controller(LEDS)
 
@@ -25,9 +26,13 @@ def main():
     camera_stream = CameraStreamMQTT(camera, mqtt_connection, CAMERA_TOPIC)
     ctrl.camera = camera_stream
 
+    moisture_stream = MoistureStreamMQTT(MOISTURE_SENSORS_CHANNELS, mqtt_connection, MOISTURE_TOPIC)
+    ctrl.moistures = moisture_stream
+
     while True:
         try:
             camera_stream.send_picture(interval_min=CAMERA_INTERVAL_MIN)
+            moisture_stream.send_moistures(interval_min=MOISTURE_INTERVAL_MIN)
             time.sleep(1)
         except Exception:
             mqtt_connection.disconnect()

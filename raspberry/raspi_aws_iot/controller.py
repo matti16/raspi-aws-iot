@@ -4,11 +4,12 @@ from gpiozero import LED
 
 
 class Controller:
-    def __init__(self, leds, camera=None):
+    def __init__(self, leds, camera=None, moistures=None):
         self.leds = {}
         for name, l in leds.items():
             self.leds[name] = LED(l)
         self.camera = camera
+        self.moistures = moistures
 
     def parse_msg(self, msg: str):
         msg = Message.parse_obj(json.loads(msg))
@@ -27,5 +28,8 @@ class Controller:
     
     def control_reset_camera(self):
         self.camera.remove_last_sent()
+
+    def control_reset_moistures(self):
+        self.moistures.remove_last_sent()
 
         

@@ -277,6 +277,10 @@ Resources:
             Prefix: camera/history/
             Status: Enabled
             ExpirationInDays: 14
+          - Id: DeleteOldMoistureData
+            Prefix: moisture/history/
+            Status: Enabled
+            ExpirationInDays: 14
   
   CameraTopicRule:
     Type: AWS::IoT::TopicRule
@@ -300,6 +304,29 @@ Resources:
               - LambdaRole
               - Arn
             Key: camera/history/${topic(4)}/${timestamp()}.jpg
+
+  MoistureTopicRule:
+    Type: AWS::IoT::TopicRule
+    Properties:
+      RuleName: !Sub "mattiot_moisture_${Env}"
+      TopicRulePayload:
+        RuleDisabled: false
+        Sql: !Sub "SELECT * FROM '${ServiceName}/${Env}/moisture/#'"
+        Actions:
+        - S3:
+            BucketName: !Ref S3BucketData
+            RoleArn:
+              Fn::GetAtt:
+              - LambdaRole
+              - Arn
+            Key: moisture/latest/${topic(4)}/latest.json
+        - S3:
+            BucketName: !Ref S3BucketData
+            RoleArn:
+              Fn::GetAtt:
+              - LambdaRole
+              - Arn
+            Key: moisture/history/${topic(4)}/${timestamp()}.json
 
   CloudFrontOriginAccessIdentity:
     Type: AWS::CloudFront::CloudFrontOriginAccessIdentity

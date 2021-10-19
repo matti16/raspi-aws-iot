@@ -5,3 +5,4 @@ RPi.GPIO
 pydantic
 picamera
 schedule
+smbus
