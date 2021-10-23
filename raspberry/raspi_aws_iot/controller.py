@@ -22,7 +22,7 @@ class Controller:
         if msg.msg_type == MsgType.LED:
             self.control_leds(msg.msg_body.leds, msg.msg_body.status)
         if msg.msg_type == MsgType.WATERING:
-            self.control_leds(msg.msg_body.pumps, msg.msg_body.durations)
+            self.control_waterings(msg.msg_body.pumps, msg.msg_body.durations)
         elif msg.msg_type == MsgType.CAMERA:
             self.control_reset_camera()
 
