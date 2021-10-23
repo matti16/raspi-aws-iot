@@ -20,4 +20,4 @@ class WateringCommand(BaseModel):
 
 class Message(BaseModel):
     msg_type: MsgType
-    msg_body: Optional[Union[LedCommand]] = None
+    msg_body: Optional[Union[LedCommand, WateringCommand]] = None
