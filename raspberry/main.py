@@ -7,7 +7,7 @@ from raspi_aws_iot.controller import Controller
 from raspi_aws_iot.camera_stream import Camera, CameraStreamMQTT
 from raspi_aws_iot.moisture_sensor import MoistureStreamMQTT
 
-ctrl = Controller(LEDS)
+ctrl = Controller(LEDS, WATERING_PINS)
 
 def on_msg_received(topic, payload, dup, qos, retain, **kwargs):
     print(f"Received message from topic '{topic}': {payload}", flush=True)
