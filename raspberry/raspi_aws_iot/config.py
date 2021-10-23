@@ -16,7 +16,6 @@ LEDS = {
     "red": 6
 }
 
-
 OUTPUT_FOLDER = "/home/pi/raspi-aws-iot/raspberry/tmp"
 
 CAMERA_TOPIC = f"{BASE_TOPIC}/camera/{CLIENT_ID}"
@@ -31,6 +30,8 @@ MOISTURE_INTERVAL_MIN = 10
 MOISTURE_MAX = 230
 MOISTURE_MIN = 100
 MOISTURE_PATH = f"{OUTPUT_FOLDER}/moisture"
+
+WATERING_PINS = [13]
 
 
 
