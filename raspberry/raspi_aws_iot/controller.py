@@ -12,7 +12,7 @@ class Controller:
         
         self.waterings = []
         for w in watering:
-            self.waterings.append(OutputDevice(w, active_high=False, initial_value=True))
+            self.waterings.append(OutputDevice(w, active_high=False, initial_value=False))
 
         self.camera = camera
         self.moistures = moistures
