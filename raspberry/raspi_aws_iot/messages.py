@@ -14,8 +14,8 @@ class LedCommand(BaseModel):
 
 
 class WateringCommand(BaseModel):
-    pumps = list
-    durations = list
+    pumps: list
+    durations: list
 
 
 class Message(BaseModel):
